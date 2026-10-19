@@ -1,0 +1,343 @@
+/* ============================================================
+   朋克摇滚 · 液态玻璃 (Glassmorphism) 个人主页样式
+   配色：黑 / 深灰 主色，暖黄 #f5a623 高光，朋克简约工业风
+   ============================================================ */
+
+:root {
+  --bg: #0a0a0c;
+  --bg-2: #17171b;
+  --bg-3: #232329;
+  --accent: #f5a623;          /* 暖黄高光 */
+  --accent-2: #ffc24b;        /* 琥珀金 */
+  --text: #f2f2f4;
+  --text-dim: #9a9aa0;
+  --glass-bg: rgba(255, 255, 255, 0.06);        /* 半透明底色 */
+  --glass-bg-strong: rgba(255, 255, 255, 0.10);
+  --glass-border: rgba(255, 255, 255, 0.18);    /* 细白边框 */
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);     /* 柔和阴影 */
+  --radius: 18px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(245, 166, 35, 0.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(245, 166, 35, 0.05), transparent 55%),
+    var(--bg);
+  min-height: 100vh;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* 细颗粒噪点质感 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 3px 3px;
+  z-index: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ---------- 液态玻璃通用样式 ---------- */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+}
+
+/* ============ 顶部导航栏 ============ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  border-left: none; border-right: none; border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.nav.scrolled {
+  background: rgba(10, 10, 12, 0.72);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.nav-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+}
+.accent { color: var(--accent); }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  position: relative;
+  transition: color 0.2s ease;
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  width: 0; height: 2px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text); }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  font-size: 1.3rem;
+  border-radius: 8px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+/* ============ Hero 大图区 ============ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+/* 艾薇儿背景图（CDN 内联；替换此 URL 即可换图） */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg-2); /* 图片加载失败时的兜底底色 */
+  background-image: url('https://commons.wikimedia.org/wiki/Special:FilePath/Avril_Lavigne,_Wango_Tango_2013.jpg?width=1600');
+  background-size: cover;
+  background-position: center 30%;
+  filter: saturate(0.85) contrast(1.05);
+  transform: scale(1.05);
+}
+/* 暗角 + 底部渐变压暗，保证文字可读 */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 10, 12, 0.55) 0%, rgba(10, 10, 12, 0.30) 45%, rgba(10, 10, 12, 0.95) 100%);
+}
+/* 暖金色黄昏光晕 */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 45% at 70% 30%, rgba(245, 166, 35, 0.28), transparent 65%);
+  mix-blend-mode: screen;
+}
+.hero-content { position: relative; z-index: 2; padding: 0 24px; }
+.hero-tag {
+  letter-spacing: 6px;
+  color: var(--accent);
+  font-size: 0.85rem;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+.hero-title {
+  font-size: clamp(3rem, 9vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
+}
+.hero-sub { margin-top: 18px; color: var(--text-dim); font-size: 1.1rem; letter-spacing: 2px; }
+.hero-actions { margin-top: 36px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+  padding: 13px 30px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: inline-block;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #1a1408;
+  box-shadow: 0 8px 26px rgba(245, 166, 35, 0.35);
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(245, 166, 35, 0.5); }
+.btn-ghost {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.btn-ghost:hover { transform: translateY(-3px); background: var(--glass-bg-strong); }
+.scroll-hint {
+  position: absolute;
+  bottom: 26px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 1.6rem;
+  color: var(--text-dim);
+  animation: bounce 1.8s infinite;
+}
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 8px); }
+}
+
+/* ============ 区块通用 ============ */
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 100px 24px;
+}
+.section-head { text-align: center; margin-bottom: 56px; }
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.section-sub { color: var(--text-dim); margin-top: 12px; }
+
+/* ============ 卡片 ============ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+.card {
+  border-radius: var(--radius);
+  padding: 30px 26px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease, border-color 0.35s ease;
+}
+/* 玻璃顶部高光 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+}
+/* hover：上浮 + 亮度变化 */
+.card:hover {
+  transform: translateY(-8px);
+  filter: brightness(1.15);
+  border-color: rgba(245, 166, 35, 0.55);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(245, 166, 35, 0.25);
+}
+.card-icon { font-size: 2rem; margin-bottom: 14px; }
+.card h3 { font-size: 1.15rem; margin-bottom: 10px; letter-spacing: 1px; }
+.card p { color: var(--text-dim); font-size: 0.95rem; }
+
+/* 作品卡片 */
+.work-card { padding: 0; display: flex; flex-direction: column; }
+.work-cover {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.4rem;
+  background:
+    linear-gradient(135deg, rgba(245, 166, 35, 0.20), rgba(245, 166, 35, 0.02)),
+    var(--bg-2);
+  border-bottom: 1px solid var(--glass-border);
+}
+.work-body { padding: 22px 24px; }
+.work-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: var(--accent);
+  border: 1px solid rgba(245, 166, 35, 0.4);
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+.work-body h3 { margin-bottom: 6px; }
+
+/* ============ 页脚 ============ */
+.footer {
+  margin-top: 20px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-left: none; border-right: none; border-bottom: none;
+}
+.footer-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 46px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  text-align: center;
+}
+.footer-brand p { color: var(--text-dim); margin-top: 6px; }
+.footer-social { display: flex; gap: 14px; }
+.footer-social a {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--glass-bg);
+  transition: transform 0.25s ease, border-color 0.25s ease, filter 0.25s ease;
+}
+.footer-social a:hover {
+  transform: translateY(-4px);
+  border-color: rgba(245, 166, 35, 0.6);
+  filter: brightness(1.2);
+}
+.footer-copy { color: var(--text-dim); font-size: 0.85rem; }
+
+/* ============ 滚动渐入动画 ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+/* 卡片错峰浮现 */
+.card-grid .reveal:nth-child(2) { transition-delay: 0.08s; }
+.card-grid .reveal:nth-child(3) { transition-delay: 0.16s; }
+.card-grid .reveal:nth-child(4) { transition-delay: 0.24s; }
+.card-grid .reveal:nth-child(5) { transition-delay: 0.32s; }
+.card-grid .reveal:nth-child(6) { transition-delay: 0.40s; }
+
+/* ============ 响应式 ============ */
+@media (max-width: 720px) {
+  .nav-links {
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 0 0 var(--radius) var(--radius);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+  }
+  .nav-links.open { max-height: 300px; }
+  .nav-links a { padding: 14px 24px; border-top: 1px solid var(--glass-border); }
+  .menu-toggle { display: inline-block; }
+  .section { padding: 70px 20px; }
+}
