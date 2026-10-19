@@ -1,85 +1,66 @@
-# 朋克摇滚 · 液态玻璃 — 个人介绍单页 UI 项目
+# dsh-punk-rock-glass · 朋克摇滚液态玻璃主题
 
-> 一个朋克摇滚主题的个人介绍单页网站，融合「液态玻璃 / Glassmorphism 液态毛玻璃」视觉质感。
+给 **DeepSeek Harness (DSH) Web GUI** 换肤的插件：暗黑工业底 + 暖金色黄昏光影 +
+**Glassmorphism 液态毛玻璃** 面板，朋克摇滚酷感，安装即自动应用。
 
-## 一、需求背景
+## 效果
 
-为音乐人 / 乐队（参考艾薇儿 Avril Lavigne）打造的个人介绍页，整体传达
-「**工业码头 × 复古朋克 × 暗黑硬核**」的摇滚态度，冷暖光影交织，酷感十足。
+- **配色**：主色黑 `#0a0a0c` / 深灰，暖黄高光 `#f5a623`、琥珀金 `#ffc24b`
+- **液态玻璃**：面板半透明 + `backdrop-filter: blur(16px) saturate(140%)` +
+  细白边框 + 柔和阴影，背景光晕透过面板形成磨砂通透感
+- **背景**：暗黑工业底 + 暖金色黄昏光晕 + 细颗粒噪点（自包含 CSS，离线可用）
+- **自动应用**：安装重启后即生效，并注册进 DSH 原生主题系统（主题列表中可见）
 
-## 二、视觉风格提取
+## 安装
 
-| 维度 | 说明 |
-| --- | --- |
-| 主题氛围 | 工业码头、复古朋克、摇滚酷感 |
-| 整体基调 | 暗黑硬核：冷峻工业金属质感 + 暖金色黄昏光影的冷暖对比 |
-| 质感 | 金属 / 铆钉 / 做旧颗粒 + 液态玻璃通透、轻盈的反差 |
-| 情绪 | 叛逆、不羁、力量感，同时保留精致的高级感 |
+```bash
+# 从 GitHub 仓库安装（你的仓库地址）
+dsh plugin --profile web add github:zzzzz-ghost/dsh-ui-project
+```
 
-## 三、配色规范
+然后**重启 `dsh web`**（刷新页面不够，需要重启进程）。重启后界面即自动应用本皮肤。
 
-| 用途 | 色值 | 说明 |
-| --- | --- | --- |
-| 主背景黑 | `#0a0a0c` | 页面底色 |
-| 深灰 | `#17171b` / `#232329` | 区块、卡片底色 |
-| 暖黄高光 | `#f5a623` | 点缀、强调、hover 高亮 |
-| 琥珀金 | `#ffc24b` | 渐变高光 |
-| 主文字 | `#f2f2f4` | 正文 |
-| 次级文字 | `#9a9aa0` | 辅助说明 |
-| 玻璃面板底 | `rgba(255,255,255,0.06)` | 半透明底色 |
-| 玻璃边框 | `rgba(255,255,255,0.18)` | 1px 细白边 |
+## 卸载
 
-## 四、页面模块
+```bash
+dsh plugin --profile web remove dsh-punk-rock-glass
+```
 
-1. **顶部导航栏**（液态玻璃效果，滚动后加深背景）
-2. **Hero 大图区**（艾薇儿 CDN 图片背景 + 暗角遮罩 + 大标题）
-3. **简介卡片区**（液态玻璃卡片，半透明 + 模糊 + 细白边框 + 柔和阴影 + hover 微动画）
-4. **作品展示卡片区**（全部液态玻璃风格）
-5. **底部页脚**（液态玻璃）
+重启 `dsh web` 后完全恢复原生外观（本插件是纯客户端插件，不改任何 DSH 源码）。
 
-## 五、特效实现
+## 文件结构
 
-- **液态玻璃 glassmorphism**：`backdrop-filter: blur(16px) saturate(140%)`
-  + 半透明底色 + 1px 细白边框 + 柔和阴影 + 顶部高光（伪元素），营造通透悬浮感
-- **滚动渐入动画**：`IntersectionObserver` 监听 `.reveal` 元素，进入视口时添加
-  `.in`，配合 `translateY + opacity` 的 CSS 过渡逐个浮现
-- **卡片 hover 动效**：`transform: translateY(-8px)` 上浮 + `filter: brightness(1.15)`
-  亮度变化 + 边框 / 阴影增强
+```
+.
+├── package.json        # DSH 插件清单（dsh.client 配置 + 依赖注入）
+├── cordis.patch.yml    # bundle patch：注册插件入口
+├── lib/
+│   ├── index.js        # host 端入口（空操作）
+│   └── client.js       # 浏览器端：注入皮肤 CSS + 主题 token
+├── LICENSE             # MIT
+└── README.md
+```
 
-## 六、启动方式
+## 自定义
 
-- **方式一（推荐，零依赖）**：直接双击 `index.html`，浏览器打开即可。
-  图片使用 CDN 内联引入，无需构建、无需联网以外的任何依赖。
-- **方式二（本地静态服务器）**：
-  ```bash
-  npx serve .
-  # 或
-  python -m http.server 8000
+- **改配色**：编辑 `lib/client.js` 顶部的 `P` 配色对象（`accent`、`base`、
+  `layer1~3` 等），然后重新安装或更新仓库。
+- **换成自己的图片背景**：在 `lib/client.js` 的 `CSS_TEXT` 中，把
+  `html::before` 的 `background` 渐变替换为一张图片，例如：
+  ```css
+  background: url('https://你的图片地址') center/cover no-repeat, #0a0a0c;
   ```
-  然后浏览器打开 `http://localhost:8000`。
+  建议图片加暗色遮罩保证文字可读。
 
-## 七、文件结构
+## 技术说明
 
-```
-F:\workspace
-├── README.md     # 本需求文档
-├── index.html    # 页面结构
-├── style.css     # 样式（液态玻璃 / 动画）
-└── script.js     # 交互（滚动动画 / 导航 / 移动端菜单）
-```
+- 皮肤通过 DSH 的 `--dsw-alias-*` / `--dsw-specific-*` 主题 token 上色，
+  并把 token 写入 `body` 内联样式以覆盖原生主题。
+- 玻璃效果依赖浏览器 `backdrop-filter`（Chromium 76+ / Safari 9+ / Firefox 103+），
+  建议使用最新版 Chrome / Edge。
+- 兼容 DSH `0.1.0-rc.8` 系列客户端插件协议（与 `dsh-client-ui-skins`、
+  `dsh-web-ui` 同构）。
 
-> 遵循约束：所有文件平铺在当前工作目录，无多余嵌套文件夹。
+## 许可证
 
-## 八、图片替换说明
-
-Hero 背景通过 `style.css` 中 `.hero-bg` 的 `background-image` 内联引入 CDN 图片。
-如需替换为你自己的艾薇儿原图：
-
-1. 打开 `style.css`，定位到 `.hero-bg` 选择器；
-2. 将 `background-image: url('...')` 的 URL 替换为你的图片地址（或本地 `./avril.jpg`）；
-3. 保存并刷新页面。
-
-## 九、兼容性
-
-- `backdrop-filter`：Chromium 76+ / Safari 9+ / Firefox 103+
-- 建议使用最新版 Chrome / Edge 获得最佳液态玻璃效果。
+[MIT](./LICENSE) · 插件是第三方代码，安装前请自行核对源码。

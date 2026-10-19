@@ -1,0 +1,54 @@
+{
+  "name": "dsh-punk-rock-glass",
+  "version": "0.1.0",
+  "description": "DSH Web UI 朋克摇滚液态玻璃主题：暗黑工业 + 暖金高光 + Glassmorphism 毛玻璃，安装即自动应用。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-theme"
+      ],
+      "external": [
+        "@deepseek-ai/dsh-client-runtime/client"
+      ],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-client-runtime": ">=0.1.0-rc.8",
+    "@deepseek-ai/dsh-client-ui-slots": ">=0.1.0-rc.8",
+    "@deepseek-ai/dsh-client-store": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-client-store": {
+      "optional": true
+    }
+  },
+  "license": "MIT"
+}

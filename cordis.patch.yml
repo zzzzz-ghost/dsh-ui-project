@@ -1,0 +1,6 @@
+# dsh-punk-rock-glass bundle patch: registers the plugin entry.
+# 安装：dsh plugin --profile web add github:zzzzz-ghost/dsh-ui-project
+# 装完重启 dsh web 后自动应用皮肤。
+- insert:
+    - id: punk-rock-glass
+      name: 'dsh-punk-rock-glass'
